@@ -23,9 +23,13 @@ public class ApiVersion {
     private String fileName;
     private String openApiVersion;
 
+    @Column(columnDefinition = "TEXT")
+    private String specification;
+
     @CreationTimestamp
     private LocalDateTime uploadedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="tracked_api_id")
     private TrackedApi trackedApi;
 }

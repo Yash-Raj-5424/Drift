@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Service
 @AllArgsConstructor
@@ -45,10 +46,13 @@ public class ApiVersionService {
         OpenAPI openAPI = parserService.parse(file);
         String openApiVersion = openAPI.getOpenapi();
 
+        String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+
         return mapVersionToResponse(apiVersionRepository.save(ApiVersion.builder()
                 .version(version)
                 .fileName(file.getOriginalFilename())
                 .openApiVersion(openApiVersion)
+                .specification(content)
                 .trackedApi(trackedApi)
                 .build()));
     }
