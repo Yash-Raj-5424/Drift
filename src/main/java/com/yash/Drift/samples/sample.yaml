@@ -7,7 +7,7 @@ info:
 paths:
   /pets:
     get:
-      summary: Get pets
+      summary: Fetch pets
       responses:
         "200":
           description: Success
