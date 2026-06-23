@@ -1,14 +1,21 @@
 package com.yash.Drift.service;
 
+import com.yash.Drift.dto.ApiVersionResponse;
 import com.yash.Drift.dto.CreateTrackedApiRequest;
 import com.yash.Drift.dto.TrackedApiResponse;
+import com.yash.Drift.entity.ApiVersion;
 import com.yash.Drift.entity.TrackedApi;
 import com.yash.Drift.exception.ApiNotFoundException;
 import com.yash.Drift.exception.DuplicateApiException;
+import com.yash.Drift.parser.OpenApiParserService;
+import com.yash.Drift.repository.ApiVersionRepository;
 import com.yash.Drift.repository.TrackedApiRepository;
+import io.swagger.v3.oas.models.OpenAPI;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -17,14 +24,13 @@ public class TrackedApiService {
 
     private final TrackedApiRepository trackedApiRepository;
 
-    private TrackedApiResponse mapToResponse(TrackedApi api){
+    private TrackedApiResponse mapApiToResponse(TrackedApi api){
         return new TrackedApiResponse(
                 api.getId(),
                 api.getName(),
                 api.getDescription()
         );
     }
-
 
     public TrackedApiResponse create(CreateTrackedApiRequest request){
         if(trackedApiRepository.existsByName(request.name())){
@@ -36,13 +42,13 @@ public class TrackedApiService {
                 .description(request.description())
                 .build();
         api = trackedApiRepository.save(api);
-        return mapToResponse(api);
+        return mapApiToResponse(api);
     }
 
     public List<TrackedApiResponse> getAll(){
 
         return trackedApiRepository.findAll().stream()
-                .map(this::mapToResponse)
+                .map(this::mapApiToResponse)
                 .toList();
 
     }
@@ -51,11 +57,13 @@ public class TrackedApiService {
         TrackedApi api = trackedApiRepository.findById(id)
                 .orElseThrow(() -> new ApiNotFoundException("Tracked API with id " + id + " not found"));
 
-        return mapToResponse(api);
+        return mapApiToResponse(api);
     }
 
     public TrackedApi findEntityById(Long id){
         return trackedApiRepository.findById(id)
                 .orElseThrow(() -> new ApiNotFoundException("Tracked API with id " + id + " not found"));
     }
+
+
 }

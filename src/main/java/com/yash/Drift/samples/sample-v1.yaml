@@ -1,0 +1,13 @@
+openapi: 3.0.1
+
+info:
+  title: Pet API
+  version: 1.0.0
+
+paths:
+  /pets:
+    get:
+      summary: Get pets
+      responses:
+        "200":
+          description: Success
