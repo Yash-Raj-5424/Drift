@@ -17,4 +17,9 @@ public class GlobalExceptionHandler{
     public ResponseEntity<String> handleDuplicate(DuplicateApiException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
+
+    @ExceptionHandler(ApiVersionNotFoundException.class)
+    public ResponseEntity<String> handleVersionNotFound(ApiVersionNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

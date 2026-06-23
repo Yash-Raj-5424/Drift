@@ -11,3 +11,8 @@ paths:
       responses:
         "200":
           description: Success
+    post:
+      summary: Create a pet
+      responses:
+        "201":
+          description: Created
