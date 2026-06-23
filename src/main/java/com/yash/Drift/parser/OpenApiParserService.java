@@ -18,4 +18,10 @@ public class OpenApiParserService {
                 .readContents(content)
                 .getOpenAPI();
     }
+
+    public OpenAPI parse(String specification) {
+        return new OpenAPIV3Parser()
+                .readContents(specification)
+                .getOpenAPI();
+    }
 }

@@ -69,4 +69,10 @@ public class ApiVersionService {
                 .orElseThrow(() -> new ApiVersionNotFoundException("API version with id " + id + " not found"));
         apiVersionRepository.delete(version);
     }
+
+    public ApiVersion getApiVersionById(Long version1Id) {
+        return apiVersionRepository.findById(version1Id)
+                .orElseThrow(() -> new ApiVersionNotFoundException("API version with id " + version1Id + " not found"));
+    }
+
 }
